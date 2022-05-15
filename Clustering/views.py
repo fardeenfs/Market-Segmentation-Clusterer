@@ -46,7 +46,7 @@ def find_elbow(uid, max_clusters, scaled_data):
     plt.xlabel('Number of clusters')
     plt.ylabel('Sum of squares')
     plot_img = 'elbow_graph_' + uid + '.png'
-    dir = 'static\\'
+    dir = '\Clustering\static\\'
     plt.savefig(dir + plot_img)
     return plot_img
 
@@ -61,7 +61,7 @@ def k_clusterer(uid, k, scaled_data):
     plt.scatter(clusters['0'], clusters['1'], c=clusters['cluster_pred'], cmap='rainbow')
     plt.xlabel("field1")
     plt.ylabel("field2")
-    dir = 'static\\'
+    dir = '\Clustering\static\\'
     plot_img = 'cluster_plot_' + uid + '.png'
     plt.savefig(dir + plot_img)
     return plot_img

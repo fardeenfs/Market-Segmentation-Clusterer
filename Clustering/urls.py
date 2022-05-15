@@ -11,4 +11,3 @@ urlpatterns = [
     path('', views.data_upload, name="home"),
     path('get-elbow/', views.get_elbow_graph, name="elbow"),
     path('get-clusters/', views.get_clusters, name="clusters")]
-+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 

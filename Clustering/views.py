@@ -25,7 +25,7 @@ def scatter_plot_generate(uid, data, field1, field2):
     # Variables being considered for the clustering
     plt.xlabel(field1)
     plt.ylabel(field2)
-    dir = 'static\\'
+    dir = '../static\\'
     plot_img = 'scatter_plot_' + uid + '.png'
     plt.savefig(dir + plot_img)
     return plot_img

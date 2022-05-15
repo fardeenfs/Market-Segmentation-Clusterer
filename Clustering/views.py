@@ -25,7 +25,7 @@ def scatter_plot_generate(uid, data, field1, field2):
     # Variables being considered for the clustering
     plt.xlabel(field1)
     plt.ylabel(field2)
-    dir = '../static\\'
+    dir = 'static/'
     plot_img = 'scatter_plot_' + uid + '.png'
     plt.savefig(dir + plot_img)
     return plot_img
@@ -46,12 +46,12 @@ def find_elbow(uid, max_clusters, scaled_data):
     plt.xlabel('Number of clusters')
     plt.ylabel('Sum of squares')
     plot_img = 'elbow_graph_' + uid + '.png'
-    dir = '\Clustering\static\\'
+    dir = 'static/'
     plt.savefig(dir + plot_img)
     return plot_img
 
 
-def k_clusterer(uid, k, scaled_data):
+def k_clusterer(uid, k, scaled_data,field1,field2):
     plt.clf()
     kmeans = KMeans(k)
     kmeans.fit(scaled_data)
@@ -59,9 +59,9 @@ def k_clusterer(uid, k, scaled_data):
     print(clusters)
     clusters['cluster_pred'] = kmeans.fit_predict(scaled_data)
     plt.scatter(clusters['0'], clusters['1'], c=clusters['cluster_pred'], cmap='rainbow')
-    plt.xlabel("field1")
-    plt.ylabel("field2")
-    dir = '\Clustering\static\\'
+    plt.xlabel(field1)
+    plt.ylabel(field2)
+    dir = 'static/'
     plot_img = 'cluster_plot_' + uid + '.png'
     plt.savefig(dir + plot_img)
     return plot_img
@@ -102,5 +102,5 @@ def get_clusters(request):
         uid = request.POST['uid']
         clusters = int(request.POST['max_clusters'])
         data = pd.read_csv("scaled_data" + uid + '.csv')
-        plot = k_clusterer(uid, clusters, data)
+        plot = k_clusterer(uid, clusters, data,field1,field2)
         return render(request, 'index.html', {'plot': plot, 'ctrl': 4, 'uid': uid, "field1": field1, "field2": field2})

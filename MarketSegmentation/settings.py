@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m*x6b3#74x_4k&o1c%j@3odyqyq^7vi#&uwtj5&i#675v&qt5(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['market-segmentation-clusterer.herokuapp.com']
 
 
 # Application definition

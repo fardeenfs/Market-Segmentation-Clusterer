@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Market Segmentation Clusterer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+.w3-bar-block .w3-bar-item {padding:20px}
+body {
+  align-items: center;
+  display: flex;
+  background: #15172b;
+  color: white;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form {
+  background-color: #15172b;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 600px;
+  padding: 20px;
+  width: 320px;
+}
+
+.title {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+.subtitle {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.input-container {
+  height: 50px;
+  position: relative;
+  width: 100%;
+}
+
+.ic1 {
+  margin-top: 40px;
+}
+
+.ic2 {
+  margin-top: 30px;
+}
+
+.input {
+  background-color: #303245;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size: 18px;
+  height: 100%;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+}
+
+.cut {
+  background-color: #15172b;
+  border-radius: 10px;
+  height: 20px;
+  left: 20px;
+  position: absolute;
+  top: -20px;
+  transform: translateY(0);
+  transition: transform 200ms;
+  width: 76px;
+}
+
+.cut-short {
+  width: 50px;
+}
+
+.input:focus ~ .cut,
+.input:not(:placeholder-shown) ~ .cut {
+  transform: translateY(8px);
+}
+
+.placeholder {
+  color: #65657b;
+  font-family: sans-serif;
+  left: 20px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 20px;
+}
+
+.input:focus ~ .placeholder,
+.input:not(:placeholder-shown) ~ .placeholder {
+  transform: translateY(-30px) translateX(10px) scale(0.75);
+}
+
+.input:not(:placeholder-shown) ~ .placeholder {
+  color: #808097;
+}
+
+.input:focus ~ .placeholder {
+  color: #dc2f55;
+}
+
+.submit {
+  background-color: #08d;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-top: 38px;
+  // outline: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.submit:active {
+  background-color: #06b;
+}
+
+</style>
+</head>
+
+
+
+<!-- Top menu -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto;align-content: center;">
+    <div class="w3-center w3-padding-16" style="background-color: #15172b;color: white">Market Segmentation Clusterer</div>
+
+  </div>
+</div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px;height:100vh">
+
+
+<div style="max-width:1200px;margin-top:100px;text-align: center;height:100vh">
+{% if ctrl == 1 %}
+    <div class="form" style="width: 100%">
+      <h3>Step 1: Generate Scatter Plot</h3>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+      <div class="input-container ic2">
+
+        <input type="text" name="field1" class="input" placeholder=""><br><br>
+        <div class="cut"></div>
+        <label for="field1" class="placeholder">Field 1 (X) </label>
+      </div>
+      <div class="input-container ic2">
+       <input type="text" name="field2" class="input" placeholder=""><br><br>
+        <div class="cut"></div>
+        <label for="field2" class="placeholder">Field 2 (Y) </label>
+      </div>
+      <div style="background-color:#15172b ">
+          <label for="file">Upload CSV Data File </label>
+       <input type="file" name="file" placeholder="" style="background-color:#15172b ">
+
+      </div>
+      <button type="text" class="submit">Submit</button>
+            </form>
+    </div>
+{% endif %}
+{% if ctrl == 2 %}
+    {% load static %}
+    <div class="form" style="width: 100%">
+      <h3>Step 2: Get The Sum Of Squares to Cluster Map</h3>
+        <img src={% static scatterplot %}>
+        <form action="/get-elbow/" method="post">
+            {% csrf_token %}
+            <div class="input-container ic1">
+
+            <input type="number" name="max_clusters" class="input" placeholder=""><br><br>
+            <div class="cut"></div>
+            <label for="max_clusters" class="placeholder">Max Clusters</label>
+            <input type="hidden" name="uid" value={{ uid }}>
+                                <input type="hidden" name="field1" value={{ field1 }}>
+                <input type="hidden" name="field2" value={{ field2 }}>
+            </div>
+            <button type="text" class="submit">Submit</button>
+        </form>
+    </div>
+
+
+{% endif %}
+{% if ctrl == 3 %}
+    {% load static %}
+    <div class="form" style="width: 100%">
+      <h3>Step 3: Decide the number of clusters from the elbow graph below</h3>
+        <img src={% static plot %}>
+        <form action="/get-clusters/" method="post">
+            {% csrf_token %}
+            <div class="input-container ic1">
+
+            <input type="number" name="max_clusters" class="input" placeholder=""><br><br>
+            <div class="cut"></div>
+            <label for="max_clusters" class="placeholder">Clusters (K)</label>
+            <input type="hidden" name="uid" value={{ uid }}>
+                <input type="hidden" name="field1" value={{ field1 }}>
+                <input type="hidden" name="field2" value={{ field2 }}>
+
+
+            </div>
+            <button type="text" class="submit">Submit</button>
+        </form>
+    </div>
+
+
+{% endif %}
+{% if ctrl == 4 %}
+    {% load static %}
+    <div class="form" style="width: 100%">
+      <h3>Step 4: And the clusters are below!</h3>
+        <img src={% static plot %}>
+
+    </div>
+
+
+{% endif %}
+</div>
+<br>
+  <!-- Footer -->
+  <footer class="w3-row-padding w3-padding-32">
+    <div class="w3-third">
+      <h3>FOOTER</h3>
+      <p>A Fun Project</p>
+      <p>Created by Fardeen Faisal <a href="https://www.linkedin.com/in/fardeen-faisal/" target="_blank">LinkedIn</a></p>
+    </div>
+
+
+
+  </footer>
+
+<!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
+</body>
+</html>
